@@ -37,6 +37,8 @@ public class PlayerDeathListener implements Listener {
             return;
         if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT))
             return;
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE))
+            return;
         FileConfiguration config = new YamlConfiguration();
         Location location = event.getFrom();
         config.set("x", location.getX());
