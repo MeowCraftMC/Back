@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.elihuso'
-version = '0.0.2-Beta'
+version = '0.0.4-Beta'
 
 repositories {
     mavenCentral()
