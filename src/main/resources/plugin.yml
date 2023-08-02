@@ -1,0 +1,10 @@
+name: Back
+version: '${version}'
+main: io.github.elihuso.back.Back
+api-version: '1.16'
+
+commands:
+  back:
+    description: "Back to your previous location"
+    permission: back.back
+    permission-message: "Permission Denied."
