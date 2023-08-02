@@ -49,13 +49,16 @@ public final class Back extends JavaPlugin {
             double x = config.getDouble("x");
             double y = config.getDouble("y");
             double z = config.getDouble("z");
-            Location location = new Location(player.getWorld(), x, y, z);
+            String w = config.getString("world");
+            World world = (w != null) ? getServer().getWorld(w) : player.getWorld();
+            Location location = new Location(world, x, y, z);
             Location preLocation = player.getLocation();
             player.teleport(location);
             player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             config.set("x", preLocation.getX());
             config.set("y", preLocation.getY());
             config.set("z", preLocation.getZ());
+            config.set("world", preLocation.getWorld().getName());
             try {
                 config.save(filePath);
             }

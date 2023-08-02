@@ -20,6 +20,7 @@ public class PlayerDeathListener implements Listener {
         config.set("x", location.getX());
         config.set("y", location.getY());
         config.set("z", location.getZ());
+        config.set("world", location.getWorld().getName());
         config.save(plugin.getDataFolder() + "/" + event.getEntity().getUniqueId().toString());
     }
 
