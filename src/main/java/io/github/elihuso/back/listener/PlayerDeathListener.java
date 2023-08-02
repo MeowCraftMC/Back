@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
 
 public class PlayerDeathListener implements Listener {
@@ -22,6 +23,17 @@ public class PlayerDeathListener implements Listener {
         config.set("z", location.getZ());
         config.set("world", location.getWorld().getName());
         config.save(plugin.getDataFolder() + "/" + event.getEntity().getUniqueId().toString());
+    }
+
+    @EventHandler
+    public void OnTeleport(PlayerTeleportEvent event) throws Exception {
+        FileConfiguration config = new YamlConfiguration();
+        Location location = event.getFrom();
+        config.set("x", location.getX());
+        config.set("y", location.getY());
+        config.set("z", location.getZ());
+        config.set("world", location.getWorld().getName());
+        config.save(plugin.getDataFolder() + "/" + event.getPlayer().getUniqueId().toString());
     }
 
 }
