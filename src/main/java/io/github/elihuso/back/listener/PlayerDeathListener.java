@@ -27,6 +27,16 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void OnTeleport(PlayerTeleportEvent event) throws Exception {
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL))
+            return;
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL))
+            return;
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL))
+            return;
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_GATEWAY))
+            return;
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT))
+            return;
         FileConfiguration config = new YamlConfiguration();
         Location location = event.getFrom();
         config.set("x", location.getX());

@@ -53,8 +53,6 @@ public final class Back extends JavaPlugin {
             World world = (w != null) ? getServer().getWorld(w) : player.getWorld();
             Location location = new Location(world, x, y, z);
             Location preLocation = player.getLocation();
-            player.teleport(location);
-            player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             config.set("x", preLocation.getX());
             config.set("y", preLocation.getY());
             config.set("z", preLocation.getZ());
@@ -65,6 +63,8 @@ public final class Back extends JavaPlugin {
             catch (Exception exception) {
                 getLogger().log(Level.WARNING, "Unable to save config of " + player.getUniqueId().toString());
             }
+            player.teleport(location);
+            player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             return true;
         }
         return false;
