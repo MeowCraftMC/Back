@@ -16,6 +16,10 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void OnPlayerDeath(PlayerDeathEvent event) throws Exception {
+
+        if (event.isCancelled())
+            return;
+
         FileConfiguration config = new YamlConfiguration();
         Location location = event.getEntity().getLocation();
         config.set("x", location.getX());
@@ -27,6 +31,8 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void OnTeleport(PlayerTeleportEvent event) throws Exception {
+        if(event.isCancelled())
+            return;
         if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL))
             return;
         if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL))
