@@ -6,8 +6,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PlayerDeathListener implements Listener {
 
@@ -27,6 +30,11 @@ public class PlayerDeathListener implements Listener {
         config.set("z", location.getZ());
         config.set("world", location.getWorld().getName());
         config.save(plugin.getDataFolder() + "/" + event.getEntity().getUniqueId().toString());
+    }
+
+    @EventHandler
+    public void OnPlayerRespawn(PlayerRespawnEvent event) {
+        event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 900, 4, true, false, true));
     }
 
     @EventHandler
