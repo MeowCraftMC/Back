@@ -12,24 +12,23 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class PlayerDeathListener implements Listener {
+import java.io.IOException;
+import java.util.UUID;
 
+public class PlayerDeathListener implements Listener {
     private final Plugin plugin;
-    public PlayerDeathListener(Plugin plugin){this.plugin = plugin;}
+
+    public PlayerDeathListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
-    public void OnPlayerDeath(PlayerDeathEvent event) throws Exception {
-
-        if (event.isCancelled())
+    public void OnPlayerDeath(PlayerDeathEvent event) {
+        if (event.isCancelled()) {
             return;
+        }
 
-        FileConfiguration config = new YamlConfiguration();
-        Location location = event.getEntity().getLocation();
-        config.set("x", location.getX());
-        config.set("y", location.getY());
-        config.set("z", location.getZ());
-        config.set("world", location.getWorld().getName());
-        config.save(plugin.getDataFolder() + "/" + event.getEntity().getUniqueId().toString());
+        saveLocation(event.getEntity().getUniqueId(), event.getEntity().getLocation());
     }
 
     @EventHandler
@@ -38,28 +37,31 @@ public class PlayerDeathListener implements Listener {
     }
 
     @EventHandler
-    public void OnTeleport(PlayerTeleportEvent event) throws Exception {
-        if(event.isCancelled())
+    public void OnTeleport(PlayerTeleportEvent event) {
+        if (event.isCancelled()) {
             return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_PORTAL))
-            return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.NETHER_PORTAL))
-            return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL))
-            return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.END_GATEWAY))
-            return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.CHORUS_FRUIT))
-            return;
-        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE))
-            return;
-        FileConfiguration config = new YamlConfiguration();
-        Location location = event.getFrom();
-        config.set("x", location.getX());
-        config.set("y", location.getY());
-        config.set("z", location.getZ());
-        config.set("world", location.getWorld().getName());
-        config.save(plugin.getDataFolder() + "/" + event.getPlayer().getUniqueId().toString());
+        }
+
+        switch (event.getCause()) {
+            case END_PORTAL:
+            case NETHER_PORTAL:
+            case CHORUS_FRUIT:
+            case ENDER_PEARL:
+            case END_GATEWAY:
+            case SPECTATE:
+                return;
+        }
+
+        saveLocation(event.getPlayer().getUniqueId(), event.getFrom());
     }
 
+    private void saveLocation(UUID uuid, Location location) {
+        FileConfiguration config = new YamlConfiguration();
+        config.set("location", location);
+        try {
+            config.save(plugin.getDataFolder() + "/data/" + uuid + ".yml");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
