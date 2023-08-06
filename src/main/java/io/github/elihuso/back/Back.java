@@ -29,29 +29,24 @@ public final class Back extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        Player player = null;
-        if (sender instanceof Player) {
-            player = (Player)sender;
-        }
-        if (player == null)
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Please use back command as a player.");
             return false;
+        }
+
+        Player player = (Player) sender;
+
         if (command.getName().equalsIgnoreCase("back")) {
-            String filePath = this.getDataFolder() + "/" + player.getUniqueId().toString();
+            String filePath = this.getDataFolder() + "/data/" + player.getUniqueId() + ".yml";
             FileConfiguration config = new YamlConfiguration();
             try {
                 config.load(filePath);
-            }
-            catch(Exception exception) {
+            } catch (Exception exception) {
                 player.sendMessage(ChatColor.RED + "Cannot back to your previous location");
-                getLogger().log(Level.WARNING, exception.getMessage());
+                // qyl27: silence is gold.
                 return false;
             }
-            double x = config.getDouble("x");
-            double y = config.getDouble("y");
-            double z = config.getDouble("z");
-            String w = config.getString("world");
-            World world = (w != null) ? getServer().getWorld(w) : player.getWorld();
-            Location location = new Location(world, x, y, z);
+            Location location = config.getLocation("location");
             player.teleport(location);
             player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             return true;
