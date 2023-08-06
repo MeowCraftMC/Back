@@ -7,5 +7,8 @@ commands:
   back:
     description: "Back to your previous location"
     permission: back.back
-    default-permission: true
     permission-message: "Permission Denied."
+
+permissions:
+  back.back:
+    default: true
