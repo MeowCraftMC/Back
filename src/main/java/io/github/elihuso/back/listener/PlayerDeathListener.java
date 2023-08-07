@@ -49,6 +49,7 @@ public class PlayerDeathListener implements Listener {
             case ENDER_PEARL:
             case END_GATEWAY:
             case SPECTATE:
+            case UNKNOWN:
                 return;
         }
 
