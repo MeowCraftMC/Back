@@ -41,14 +41,14 @@ public final class Back extends JavaPlugin {
             FileConfiguration config = new YamlConfiguration();
             try {
                 config.load(filePath);
+                Location location = config.getLocation("location");
+                player.teleport(location);
+                player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             } catch (Exception exception) {
                 player.sendMessage(ChatColor.RED + "Cannot back to your previous location");
                 // qyl27: silence is gold.
                 return false;
             }
-            Location location = config.getLocation("location");
-            player.teleport(location);
-            player.sendMessage(ChatColor.GREEN + "Teleport to your previous location.");
             return true;
         }
         return false;
